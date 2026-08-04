@@ -1,0 +1,51 @@
+<view class="container">
+  <!-- 连接状态 -->
+  <view class="status-bar">
+    <text>连接状态</text>
+    <text class="{{isConnected ? 'status-online' : 'status-offline'}}">
+      {{isConnected ? '已连接' : '未连接'}}
+    </text>
+  </view>
+  <view wx:if="{{!isConnected && statusMsg}}" class="status-bar">
+    <text class="status-offline">{{statusMsg}}</text>
+  </view>
+
+  <!-- pH 数值显示 -->
+  <view class="card">
+    <view class="title">实时 pH 值</view>
+    <view>
+      <text class="value">{{phValue}}</text>
+      <text class="unit">pH</text>
+    </view>
+  </view>
+
+  <!-- 加液状态 -->
+  <view class="card">
+    <view class="title">加液状态</view>
+    <view class="info-row">
+      <text class="info-label">是否正在加液</text>
+      <text class="info-value">{{isAdding ? '正在加液' : '已停止'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">自动加液</text>
+      <text class="info-value">{{autoDosing ? '已开启' : '已停止'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">更新时间</text>
+      <text class="info-value">{{updateTime}}</text>
+    </view>
+  </view>
+
+  <!-- 加液控制 -->
+  <view class="card">
+    <button
+      class="btn {{autoDosing ? 'btn-danger' : 'btn-active'}}"
+      hover-class="btn-hover"
+      bindtap="onToggleAdding"
+    >
+      {{autoDosing ? '停止加液' : '自动加液'}}
+    </button>
+  </view>
+
+  <view class="hint">手动命令下发后 ESP8266 优先执行，30 分钟后自动恢复根据 pH 自动控制</view>
+</view>
