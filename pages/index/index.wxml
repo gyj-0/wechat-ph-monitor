@@ -23,12 +23,8 @@
   <view class="card">
     <view class="title">加液状态</view>
     <view class="info-row">
-      <text class="info-label">是否正在加液</text>
-      <text class="info-value">{{isAdding ? '正在加液' : '已停止'}}</text>
-    </view>
-    <view class="info-row">
-      <text class="info-label">自动加液</text>
-      <text class="info-value">{{autoDosing ? '已开启' : '已停止'}}</text>
+      <text class="info-label">碱泵</text>
+      <text class="info-value">{{isAdding ? '运行中' : '已停止'}}</text>
     </view>
     <view class="info-row">
       <text class="info-label">更新时间</text>
@@ -43,9 +39,9 @@
       hover-class="btn-hover"
       bindtap="onToggleAdding"
     >
-      {{autoDosing ? '停止加液' : '自动加液'}}
+      {{autoDosing ? '停止加液' : '手动加液'}}
     </button>
   </view>
 
-  <view class="hint">手动命令下发后 ESP8266 优先执行，30 分钟后自动恢复根据 pH 自动控制</view>
+  <view class="hint">手动开泵后 30 分钟自动恢复</view>
 </view>
