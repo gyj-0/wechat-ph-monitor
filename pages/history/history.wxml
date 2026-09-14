@@ -1,0 +1,74 @@
+<view class="container">
+  <view wx:if="{{errorMsg}}" class="status-bar">
+    <text class="status-offline">{{errorMsg}}</text>
+  </view>
+  <view wx:if="{{epochNote}}" class="status-bar">
+    <text class="epoch-note">{{epochNote}}</text>
+  </view>
+
+  <!-- pH 折线图 -->
+  <view class="card">
+    <view class="title">pH 变化曲线（最近 {{phHistory.length}} 条，橙色段 = 加液时段）</view>
+    <canvas type="2d" id="phChart" class="chart"></canvas>
+  </view>
+
+  <!-- 累计加液统计 -->
+  <view class="card">
+    <view class="title">累计加液（设备本次上电以来）</view>
+    <view class="info-row">
+      <text class="info-label">加液次数</text>
+      <text class="info-value">{{doseCount}} 次</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">加液量（估算）</text>
+      <text class="info-value">{{doseMl}} ml</text>
+    </view>
+    <button class="btn btn-plain btn-reset" hover-class="btn-hover" bindtap="onResetStats">
+      数据归零
+    </button>
+  </view>
+
+  <!-- 加液点记录（折叠） -->
+  <view class="card">
+    <view class="fold-header" bindtap="onToggleDoseList">
+      <text class="title fold-title">加液记录（{{doseEvents.length}} 条）</text>
+      <text class="fold-arrow">{{showDoseList ? '▼' : '▶'}}</text>
+    </view>
+    <block wx:if="{{showDoseList}}">
+      <view wx:if="{{doseEvents.length === 0}}" class="empty">暂无加液记录</view>
+      <view wx:for="{{doseEvents}}" wx:key="time" class="info-row">
+        <text class="info-label">{{item.time}}</text>
+        <text class="info-value">第 {{item.count}} 次加液</text>
+      </view>
+      <button wx:if="{{doseMore}}" class="btn btn-plain" hover-class="btn-hover" bindtap="loadDoseEvents">
+        加载更多
+      </button>
+    </block>
+  </view>
+
+  <!-- pH 原始数据（折叠） -->
+  <view class="card">
+    <view class="fold-header" bindtap="onTogglePhList">
+      <text class="title fold-title">pH 原始数据（{{phHistory.length}} 条）</text>
+      <text class="fold-arrow">{{showPhList ? '▼' : '▶'}}</text>
+    </view>
+    <block wx:if="{{showPhList}}">
+      <view wx:if="{{phHistory.length === 0}}" class="empty">暂无数据</view>
+      <view wx:for="{{phHistory}}" wx:key="time" class="info-row">
+        <text class="info-label">{{item.time}}</text>
+        <text class="info-value">pH {{item.value}}</text>
+      </view>
+      <button wx:if="{{phMore}}" class="btn btn-plain" hover-class="btn-hover" bindtap="loadPhHistory">
+        加载更多
+      </button>
+    </block>
+  </view>
+
+  <!-- 导出 -->
+  <view class="card">
+    <button class="btn btn-active" hover-class="btn-hover" bindtap="onExportCSV">
+      导出当前数据为 CSV
+    </button>
+    <view class="hint">导出已加载的 pH 与加液记录，可转发到电脑用 Excel 打开</view>
+  </view>
+</view>

@@ -19,6 +19,11 @@
     </view>
   </view>
 
+  <!-- pH 过低警告 -->
+  <view wx:if="{{phNum !== null && phNum < 6}}" class="alert-banner">
+    ⚠ pH 过低（{{phValue}}），请检查水体
+  </view>
+
   <!-- 加液状态 -->
   <view class="card">
     <view class="title">加液状态</view>
@@ -32,8 +37,31 @@
     </view>
   </view>
 
-  <!-- 加液控制 -->
+  <!-- 模式选择 -->
   <view class="card">
+    <view class="title">调节模式</view>
+    <view class="btn-group">
+      <button
+        class="btn {{!isManual ? 'btn-active' : ''}}"
+        hover-class="btn-hover"
+        data-mode="auto"
+        bindtap="onSwitchMode"
+      >
+        自动调节
+      </button>
+      <button
+        class="btn {{isManual ? 'btn-active' : ''}}"
+        hover-class="btn-hover"
+        data-mode="manual"
+        bindtap="onSwitchMode"
+      >
+        手动调节
+      </button>
+    </view>
+  </view>
+
+  <!-- 加液控制：仅手动模式 -->
+  <view class="card" wx:if="{{isManual}}">
     <button
       class="btn {{autoDosing ? 'btn-danger' : 'btn-active'}}"
       hover-class="btn-hover"
@@ -43,5 +71,17 @@
     </button>
   </view>
 
-  <view class="hint">手动开泵后 30 分钟自动恢复</view>
+  <view class="hint" wx:if="{{isManual}}">手动模式下设备不自动调节，请注意及时停泵</view>
+  <view class="hint" wx:else>自动模式中，设备按 pH 阈值自动调节</view>
+
+  <!-- 数据记录入口 -->
+  <view class="card">
+    <button
+      class="btn"
+      hover-class="btn-hover"
+      bindtap="onOpenHistory"
+    >
+      查看数据记录
+    </button>
+  </view>
 </view>

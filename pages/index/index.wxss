@@ -7,3 +7,13 @@
 .btn-hover {
   opacity: 0.8;
 }
+
+.alert-banner {
+  background: #fa5151;
+  color: #fff;
+  font-size: 28rpx;
+  text-align: center;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  margin-bottom: 24rpx;
+}
